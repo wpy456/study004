@@ -96,16 +96,27 @@ class ViewController: UIViewController ,UITableViewDelegate,UITableViewDataSourc
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return ["0","1","2"]
     }
+    var refreshControl=UIRefreshControl()//下拉刷新
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        refreshControl.attributedTitle=NSAttributedString(string: "松开后自动刷新")
         let tableView=UITableView(frame: self.view.bounds,style: .plain)
         tableView.delegate=self
         tableView.dataSource=self
         tableView.isEditing=true//编辑模式
+        
+        tableView.addSubview(refreshControl)
         self.view.addSubview(tableView)
     }
 
-
+//下拉响应
+    @objc func refreshData(){
+//        self.tableView.reloadData()
+        self.refreshControl.endRefreshing()
+        
+    }
 }
 
